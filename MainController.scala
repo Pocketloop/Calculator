@@ -1,17 +1,13 @@
-
 import scalafx.event.ActionEvent
 import scalafxml.core.macros.sfxml
 import scalafx.scene.control.TextField
-import scalafx.scene.text.Text
-import javafx.{scene => jfxs}
 
 @sfxml
-class MainController {
-  private val textField = TextField
-  private val savedNumbers = Text
-  private var firstNumber = ""
-  private var currentNumber = ""
-  private var calculationType = null
+abstract class MainController{
+  val textfield: TextField
+  private var firstNumber: String = ""
+  private var currentNumber: String = ""
+  private var calculationType: String = ""
 
   def addAction(event: ActionEvent): Unit = {
     calculationSetup("+")
@@ -33,7 +29,6 @@ class MainController {
     this.calculationType = calculationType
     firstNumber = currentNumber
     currentNumber = ""
-    savedNumbers.setText(firstNumber + " " + calculationType)
   }
 
   def calculate(event: ActionEvent): Unit = {
@@ -41,28 +36,23 @@ class MainController {
     val secondNumberInt = currentNumber.toInt
     calculationType match {
       case "+" => val calculatedNumber = firstNumberInt + secondNumberInt
-        savedNumbers.setText(firstNumber + " + " + currentNumber + " = " + calculatedNumber)
-        textField.setText(String.valueOf(calculatedNumber))
+        textfield.setText((String.valueOf(calculatedNumber)))
 
       case "-" => val calculatedNumber = firstNumberInt - secondNumberInt
-        savedNumbers.setText(firstNumber + " - " + currentNumber + " = " + calculatedNumber)
-        textField.setText(String.valueOf(calculatedNumber))
+        textfield.setText(String.valueOf(calculatedNumber))
 
       case "/" => val calculatedNumber = firstNumberInt / secondNumberInt.toDouble
-        savedNumbers.setText(firstNumber + " / " + currentNumber + " = " + calculatedNumber)
-        textField.setText(String.valueOf(calculatedNumber))
+        textfield.setText(String.valueOf(calculatedNumber))
 
       case "*" => val calculatedNumber = firstNumberInt * secondNumberInt
-        savedNumbers.setText(firstNumber + " * " + currentNumber + " = " + calculatedNumber)
-        textField.setText(String.valueOf(calculatedNumber))
+        textfield.setText(String.valueOf(calculatedNumber))
 
     }
   }
 
   def clearTextField(event: ActionEvent): Unit = {
     currentNumber = ""
-    textField.setText("")
-    savedNumbers.setText("")
+    textfield.setText("")
   }
 
   def button0(event: ActionEvent): Unit = {
@@ -106,7 +96,7 @@ class MainController {
   }
 
   def updateTextField(): Unit = {
-    textField.setText(currentNumber)
+    textfield.setText(currentNumber)
   }
 
   def addNumber(number: String): Unit = {
